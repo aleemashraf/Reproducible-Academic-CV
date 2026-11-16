@@ -1,0 +1,22 @@
+project:
+  type: default
+
+# ---------------------------------------------------------------------------
+# Typst output. The page geometry mirrors the settings that the
+# pro-academic-cv template applies internally (see R/cv.R::header_block), so
+# that Quarto's own `set page` never fights the template's.
+# `keep-typ: true` keeps the generated cv.typ next to cv.pdf for inspection.
+format:
+  typst:
+    keep-typ: true
+    papersize: a4
+    margin:
+      left: 1.4cm
+      right: 1.2cm
+      top: 0.8cm
+      bottom: 1cm
+
+execute:
+  echo: false
+  warning: false
+  message: false

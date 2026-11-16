@@ -1,0 +1,129 @@
+---
+engine: knitr
+format:
+  typst:
+    keep-typ: true
+---
+
+```{=html}
+<!--
+============================================================================
+ Reproducible Academic CV — Aleem Ashraf
+ ----------------------------------------------------------------------------
+ Render with the RStudio "Render" button, or from a terminal:
+
+     quarto render cv.qmd
+
+ Everything visible in the CV is pulled programmatically from the three
+ source files in data/ (cv_data.xlsx, profile.yml, my_publications.bib).
+ The R code that reads, filters and formats each section lives in R/cv.R;
+ this document only wires the sections together in order.
+
+ NOTE: keep all prose inside HTML comments like this one. The CV is emitted
+ as raw Typst through the chunks below, and ordinary Markdown outside them
+ would be styled by Quarto's default template instead of the CV template.
+============================================================================
+-->
+```
+
+```{r}
+#| include: false
+#| label: setup
+
+## 1. Project setup ----------------------------------------------------------
+if (!dir.exists("data"))
+  stop("Render this file from the project root ",
+       "(open 'academic-cv-quarto' as an RStudio project first).")
+source("R/cv.R")
+
+## 2. Configuration ----------------------------------------------------------
+# Every tunable knob of the pipeline. Lowering a number relaxes the filter 
+# (e.g., setting to 8 includes items ranked 8, 9, and 10).
+cfg <- cv_config(
+  prio_experience     = 8L,   # Academic Experience threshold
+  prio_courses        = 9L,   # Delivered Courses threshold
+  prio_supervision    = 7L,   # Research Supervision threshold
+  prio_services       = 8L,   # Academic Services threshold
+  prio_qualifications = 10L,  # Qualifications threshold
+  prio_ce             = 8L,  # Continuous Education threshold
+  ce_types            = c("Research", "Statistics"), #Category type selector "Core", "Research", "Statistics"
+  prio_profdev        = 7L,   # Professional Development threshold
+  
+  # --- 2. Typography & Sizing ---
+  # Must match the exact font name installed on your Windows system
+  font_family         = "Corbel", 
+  font_size           = "10pt",  # Increase to "11pt" if a specific employer prefers larger text
+  author_font_size    = "25pt",  # Scales your name at the very top of the page
+  
+  # --- 3. Content Toggles ---
+  # Set to FALSE to instantly strip all student names from your supervision section
+  show_supervisees    = TRUE,    
+  
+  # --- 4. Publication Controls ---
+  # Customize the text that appears in small caps next to "Publications"
+  pub_legend          = "P = Published, S = Submitted",
+  
+  # Manually force the status of specific BibTeX entries regardless of their type
+  # Format: c(bib_key = "Status")
+  pub_status_override = c(
+    # Example: ashraf_conformity_2026 = "UPR", 
+    # Example: ashraf_qmers_2025 = "P"
+  ),
+  
+  # --- 5. Section Visibility Toggles ---
+  # Set any of these to FALSE to completely remove the section and its heading.
+  # Typst will automatically shift subsequent sections up with no white gaps.
+  show_profile        = TRUE,
+  show_experience     = TRUE,
+  show_courses        = FALSE,
+  show_supervision    = TRUE,
+  show_services       = FALSE,
+  show_qualifications = TRUE,
+  show_publications   = TRUE,
+  show_profdev        = TRUE,
+  
+  # --- 6. Section Sequence ---
+  # Reorder these strings to instantly change the order of sections in the PDF.
+  section_order = c(
+    "profile",
+    "experience",
+    "courses",
+    "supervision",
+    "services",
+    "qualifications",
+    "profdev",
+    "publications"
+  )
+)
+
+## 3. Load all sources -------------------------------------------------------
+cv <- cv_load("data", cfg)
+```
+
+```{r}
+#| label: header
+#| output: asis
+# Imports the pro-academic-cv template and prints the header (name, title,
+# contact links with icons, location) plus the subsection-heading style.
+cat_typst(header_block(cv, cfg))
+```
+
+```{r}
+#| label: render-sections
+#| output: asis
+
+# Loop through the exact order defined in config
+for (sec in cfg$section_order) {
+  
+  # Check if the visibility toggle for this section is set to TRUE
+  toggle_name <- paste0("show_", sec)
+  
+  if (isTRUE(cfg[[toggle_name]])) {
+    # Dynamically construct the function name (e.g., "section_experience")
+    func_name <- paste0("section_", sec)
+    
+    # Execute the function and print the Typst output
+    cat_typst(do.call(func_name, list(cv, cfg)))
+  }
+}
+```

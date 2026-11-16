@@ -1,0 +1,39 @@
+
+name: "Aleem Ashraf"
+
+professional_title: >
+  Psychology Educator and Quantitative Researcher
+
+linkedin: "https://www.linkedin.com/in/aleemashraf"
+
+orcid: "https://orcid.org/my-orcid?orcid=0000-0001-7600-6255"
+
+location: "Karachi, Pakistan"
+
+email: "someone@somewhere.com"
+
+phone: "+92 123 456 7890"
+
+academic_profile: >
+  I am a psychology educator, researcher, and PhD candidate, committed to advancing competency-based psychology education through evidence-based teaching, quantitative reasoning, and authentic learning experiences. My expertise integrates quantitative research methods, data analysis, psychological assessment, scientific writing, and undergraduate research supervision, enabling students to develop the analytical, critical thinking, and professional competencies essential for contemporary psychological practice. Guided by research in educational psychology, I design technology-enhanced, project-based learning environments that bridge theory with real-world application while fostering scientific reasoning, collaboration, and lifelong learning.
+
+research_interests:
+  - control-value theory
+  - achievement emotions
+  - cognitive processes
+  - learning strategies
+  - motivation
+  - moral reasoning
+
+methodological_expertise:
+  - General Linear Modeling (GLM)
+  - Multilevel Modelling (MLM)
+  - Structural Equation Modelling (SEM)
+  - Latent Profile Analysis (LPA)
+
+software_package:
+  - R
+  - IBM SPSS
+  - Jamovi
+  - JASP
+  
