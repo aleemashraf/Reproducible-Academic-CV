@@ -42,7 +42,7 @@ source("R/cv.R")
 cfg <- cv_config(
   prio_experience     = 8L,   # Academic Experience threshold
   prio_courses        = 9L,   # Delivered Courses threshold
-  prio_supervision    = 7L,   # Research Supervision threshold
+  prio_supervision    = 6L,   # Research Supervision threshold
   prio_services       = 8L,   # Academic Services threshold
   prio_qualifications = 10L,  # Qualifications threshold
   prio_ce             = 8L,  # Continuous Education threshold
